@@ -1,5 +1,9 @@
 class BinaryTreeNode:
 
+    """ Class to create a binary tree nodes with
+    left and right childs
+    """
+
     def __init__(self, data):
         self.data = data
         self.left = None # Node

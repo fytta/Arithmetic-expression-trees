@@ -3,7 +3,19 @@ from Operation import *
 
 class BinaryTree:     
 
+    """ Class used to implement a binary tree to build
+    an arithmetic expression tree.
+
+    Class with the operations need to build the 
+    binary tree and go through it and evaluate it
+    to get the final result about the 
+    arithmethic expression
+    """
+
     root = None
+    postorder_tree = []
+    n_nodes = 0
+
     def setRoot(self, node):
         self.root = self.newNode(node)
 
@@ -12,11 +24,29 @@ class BinaryTree:
 
     def newNode(self, data):
         return btn.BinaryTreeNode(data)
+    
 
-    def toTree(self, postfix):
+    def getNumNodes(self):
+        return self.n_nodes
+    
+    def setNumNodes(self, n_nodes):
+        self.n_nodes = n_nodes
+
+    def toTree(self, infix):
+
+        """ From an input string containing a valid expression 
+        in postfixed notation 
+        and returns a tree representing that expression.
+
+        :param arg: string in postfix notation
+        :type arg: String
+        :return: the root node
+        :rtype: BinaryTreeNode
+        """
+
         nodes_lst = []
-        infix = postfixToInfix(postfix)
-        
+        infix = InfixToPostfix(infix)
+        self.setNumNodes(len(infix))
         for t in infix:
             if t.isnumeric():
                 nodes_lst.append(self.newNode(t))
@@ -27,25 +57,62 @@ class BinaryTree:
                 nodes_lst.append(aux_node)
                 
         # end_for
-        self.root = nodes_lst.pop()
+        self.root = nodes_lst.pop()  
+        self.postorder(self.getRoot())      
         return self.getRoot()
     
-    def preorder(self, node):       
-        if node != None:
-            print(node.getData())
-            self.preorder(node.getLeft())
-            self.preorder(node.getRight()) 
+    def postorder(self, node):  
 
-    def inorder(self, node):       
-        if node != None:
-            self.preorder(node.getLeft())
-            print(node.getData())
-            self.preorder(node.getRight()) 
+        """Go through the tree in postorder and save 
+        the data of the nodes in a postorder_tree variable list
 
-    def postorder(self, node):       
-        if node != None:
-            self.preorder(node.getLeft())
-            self.preorder(node.getRight()) 
-            print(node.getData())
+        :param arg: a tree node
+        :type arg: BinaryTreeNode
+        :return: A list in postorder
+        :rtype: list
+        """ 
 
-     
+        if node != None:
+            self.postorder(node.getRight()) 
+            self.postorder(node.getLeft())
+            self.postorder_tree.append(node.getData())
+        else: 
+            return self.postorder_tree
+    
+    def eval(self, node):
+
+        """ Go through the tree in post-order and apply the 
+        operations in the same order as the nodes are visited.
+        Process a binary expression tree to obtain the final result of 
+        the arithmetic expression
+
+        :param arg: a tree node
+        :type arg: BinaryTreeNode
+        :return: A list in postorder
+        :rtype: The final result of the arithmetic expression.
+        """
+
+        result = -1.0
+        if isOperator(node.getData()):
+            op = node.getData()
+
+            if op == '+':
+                result = self.eval(node.getLeft()) + self.eval(node.getRight())
+            elif op == '-':
+                result = self.eval(node.getLeft()) - self.eval(node.getRight())                
+            elif op == '*':
+                print(node.getLeft().getData(),node.getRight().getData() )
+                result = self.eval(node.getLeft()) * self.eval(node.getRight())   
+            elif op == '/':
+                result = self.eval(node.getLeft()) / self.eval(node.getRight())
+            elif op == '^':
+                result = pow(self.eval(node.getLeft()), self.eval(node.getRight()))
+        else:
+            result = float(node.getData())
+        return result
+
+if __name__ == "__main__":
+    tree = BinaryTree()
+    tree.toTree("(2+3)*4")
+    print(tree.postorder_tree)
+    print(tree.eval(tree.getRoot()))     

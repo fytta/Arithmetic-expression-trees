@@ -1,6 +1,19 @@
 import sys
 
+""" Module with some helpful methods
+to implement the arithmetic expression tree"""
+
 def isOperator(data):
+
+    """ Return true if data is an operator
+    or false if it is not.
+
+    :param arg: string with one character.
+    :type arg: string
+    :return: true o false depend of the input
+    :rtype: Boolean
+    """
+
     operators = ['+', '-', '*', '/', '^']
     if data in operators:
         return True
@@ -8,6 +21,21 @@ def isOperator(data):
         return False
 
 def precedenceOperator(op):
+
+    """ Determine the precendence of
+    the diferents operators.
+    + and - : 0
+    * and / : 1
+    ^ : 2
+    In case op isn't a operator return -1
+    Higher value means higher precedence
+
+    :param arg: operator as a string
+    :type arg: string
+    :return: A value specifying the precedence of the op.
+    :rtype: integer
+    """
+
     if op == '+' or op == '-':
         return 0
     elif op == '*' or op == '/':
@@ -17,13 +45,23 @@ def precedenceOperator(op):
     else:
         return -1
 
-def postfixToInfix(postfix): #2+3*4 -> 2 3 4 * +
-    # Variables
+def InfixToPostfix(infix):
+
+    """ input string containing a valid statement in infix
+    notation and returns an output string containing the same 
+    statement in postfixed notation. 
+
+    :param arg: statement in infix notation
+    :type arg: string
+    :return: returns an output string containing the same statement in postfixed notation.
+    :rtype: string
+    """
+    
     output_list = [] # contains the tokens of the output expression
     operator_stack = [] # contain the operators not evaluated yet
-    postfix = postfix.replace(" ", "")
+    infix = infix.replace(" ", "")
 
-    for t in postfix:
+    for t in infix:
         if t.isnumeric():
             output_list.append(t)
         elif t == '(':
