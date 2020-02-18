@@ -8,3 +8,5 @@ Classes implemented:
 
 Modules:
 * Operations: It has helpful method to build the tree
+
+Python version 3.7
