@@ -38,8 +38,8 @@ class BinaryTree:
         in postfixed notation 
         and returns a tree representing that expression.
 
-        :param arg: string in postfix notation
-        :type arg: String
+        :param infix: string in postfix notation
+        :type infix: String
         :return: the root node
         :rtype: BinaryTreeNode
         """
@@ -66,8 +66,8 @@ class BinaryTree:
         """Go through the tree in postorder and save 
         the data of the nodes in a postorder_tree variable list
 
-        :param arg: a tree node
-        :type arg: BinaryTreeNode
+        :param node: a tree node
+        :type node: BinaryTreeNode
         :return: A list in postorder
         :rtype: list
         """ 
@@ -86,8 +86,8 @@ class BinaryTree:
         Process a binary expression tree to obtain the final result of 
         the arithmetic expression
 
-        :param arg: a tree node
-        :type arg: BinaryTreeNode
+        :param node: a tree node
+        :type node: BinaryTreeNode
         :return: A list in postorder
         :rtype: The final result of the arithmetic expression.
         """
